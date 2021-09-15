@@ -16,9 +16,11 @@ end
 
 # params[:url] : URL
 # params[:size] : size (mm)
+# params[:level] : level (default: M)
 get "/make_qr" do
   content_type :png
-  QRLib.make_qr(params[:url], params[:size].to_i)
+  level = params[:level] ? params[:level].to_sym : :m
+  QRLib.make_qr(params[:url], params[:size].to_i, level)
 end
 
 # params[:file] : Excel file

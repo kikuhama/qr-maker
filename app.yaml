@@ -1,4 +1,4 @@
-runtime: ruby25
+runtime: ruby27
 entrypoint: bundle exec ruby app.rb
 instance_class: F1
 automatic_scaling:

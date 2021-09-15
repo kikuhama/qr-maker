@@ -1,6 +1,10 @@
+const QR_LEVELS = ["l", "m", "q", "h"];
+const DEFAULT_QR_LEVEL = "m";
+
 const QR = {
     url: "",
     size: 15,
+    level: DEFAULT_QR_LEVEL,
     img: null,
 
     setSize: function(value) {
@@ -19,12 +23,17 @@ const QR = {
         QR.make();
     },
 
+    setLevel: function(value) {
+        QR.level = value;
+        QR.make();
+    },
+
     make: function() {
         if(QR.url.match(/^https?:\/\//) && QR.size > 0) {
             m.request({
                 method: "GET",
                 url: "make_qr",
-                params: {url: QR.url, size: QR.size},
+                params: {url: QR.url, size: QR.size, level: QR.level},
                 responseType: "blob",
             }).then(function(data) {
                 if(data) {
@@ -109,7 +118,7 @@ const QRFromURLView = {
             m("h5.card-header", "URLから作成（個別）"),
             m(".card-body", [
                 m(".form-row", [
-                    m(".col-8", [
+                    m(".col-7", [
                         m("label[for=url]", "URL"),
                         m("input[type=text]#url.form-control", {
                             value: QR.url,
@@ -131,6 +140,21 @@ const QRFromURLView = {
                             ]),
                         ]),
                         m(HelpTextView, "QRのサイズ(mm)を入力してください。"),
+                    ]),
+                    m(".col-1", [
+                        m("label[for=qr-level]", "レベル"),
+                        m("select.form-control#qr-level", {
+                            value: QR.level,
+                            onchange: function(e) {
+                                QR.setLevel(e.target.value);
+                            },
+                        }, [
+                            QR_LEVELS.map(function(lv) {
+                                return m("option", {
+                                    value: lv,
+                                }, lv);
+                            }),
+                        ]),
                     ]),
                     m(".col", [
                         m(QRImgView),
