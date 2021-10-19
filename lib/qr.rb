@@ -35,7 +35,7 @@ module QRLib
       if size < 1
         size = QRLib::DEFAULT_QR_SIZE
       end
-      level = sheet[1][4].value.to_sym
+      level = sheet[1][4] ? sheet[1][4].value.to_sym : DEFAULT_QR_LEVEL
       unless QR_LEVELS.include?(level)
         level = DEFAULT_QR_LEVEL
       end
