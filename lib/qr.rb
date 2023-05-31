@@ -13,7 +13,7 @@ module QRLib
   DEFAULT_QR_LEVEL = :m
   
   def self.make_qr(url, size, level = :m)
-    qr = RQRCode::QRCode.new(url, level: level)
+    qr = RQRCode::QRCode.new(url.to_s, level: level)
     png = qr.as_png(
       bit_depth: 1,
       border_modules: 2,
